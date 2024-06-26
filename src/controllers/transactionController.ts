@@ -60,12 +60,25 @@ export const addTransaction = async (req: Request, res: Response) => {
           ammount: account.ammount,
         },
       });
+    } else {
+      let value = 0;
+
+      if (category === "Despesa") {
+        value = 0 - ammount;
+      } else if (category === "Recebimento") {
+        value = ammount;
+      }
+
+      await prisma.account.create({
+        data: {
+          ammount: value,
+          userId,
+        },
+      });
     }
 
     res.status(201).json({ message: "Transação adicionada" });
   } catch (error: any) {
-    console.log(error);
-    console.log(req.body);
     res
       .status(500)
       .json({ message: "Erro ao executar transação", error: error.message });
@@ -128,8 +141,9 @@ export const getTransactions = async (req: Request, res: Response) => {
 
 // DELETE
 export const deleteTransaction = async (req: Request, res: Response) => {
+  console.log("params => ", req.params);
   try {
-    const { transactionId } = req.params;
+    const { id } = req.params;
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -147,7 +161,7 @@ export const deleteTransaction = async (req: Request, res: Response) => {
 
     const transaction = await prisma.transaction.findUnique({
       where: {
-        id: transactionId,
+        id,
         userId,
       },
     });
@@ -158,7 +172,7 @@ export const deleteTransaction = async (req: Request, res: Response) => {
 
     await prisma.transaction.delete({
       where: {
-        id: transactionId,
+        id,
         userId,
       },
     });

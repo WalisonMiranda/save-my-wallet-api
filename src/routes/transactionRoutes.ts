@@ -10,6 +10,6 @@ const transactionRouter = Router();
 
 transactionRouter.post("/", addTransaction);
 transactionRouter.get("/", getTransactions);
-transactionRouter.delete("/", deleteTransaction);
+transactionRouter.delete("/:id", deleteTransaction);
 
 export { transactionRouter };

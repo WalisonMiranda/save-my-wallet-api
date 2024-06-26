@@ -4,6 +4,6 @@ import { getAccount } from "../controllers/accountControllet";
 
 const accountRouter = Router();
 
-accountRouter.post("/", getAccount);
+accountRouter.get("/", getAccount);
 
 export { accountRouter };
