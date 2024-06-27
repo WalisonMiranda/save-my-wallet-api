@@ -7,7 +7,7 @@ interface JwtPayload {
 }
 
 interface TransactionRequest {
-  ammount: number;
+  amount: number;
   category: "Despesa" | "Recebimento";
   description?: string;
   date: string;
@@ -16,7 +16,7 @@ interface TransactionRequest {
 // CREATE
 export const addTransaction = async (req: Request, res: Response) => {
   try {
-    const { ammount, category, date, description } =
+    const { amount, category, date, description } =
       req.body as TransactionRequest;
     const authHeader = req.headers.authorization;
 
@@ -35,7 +35,7 @@ export const addTransaction = async (req: Request, res: Response) => {
 
     await prisma.transaction.create({
       data: {
-        ammount,
+        amount,
         description,
         category,
         date,
@@ -47,9 +47,9 @@ export const addTransaction = async (req: Request, res: Response) => {
 
     if (account) {
       if (category === "Despesa") {
-        account.ammount = account.ammount - ammount;
+        account.amount = account.amount - amount;
       } else if (category === "Recebimento") {
-        account.ammount = account.ammount + ammount;
+        account.amount = account.amount + amount;
       }
 
       await prisma.account.update({
@@ -57,21 +57,21 @@ export const addTransaction = async (req: Request, res: Response) => {
           userId,
         },
         data: {
-          ammount: account.ammount,
+          amount: account.amount,
         },
       });
     } else {
       let value = 0;
 
       if (category === "Despesa") {
-        value = 0 - ammount;
+        value = 0 - amount;
       } else if (category === "Recebimento") {
-        value = ammount;
+        value = amount;
       }
 
       await prisma.account.create({
         data: {
-          ammount: value,
+          amount: value,
           userId,
         },
       });
@@ -181,9 +181,9 @@ export const deleteTransaction = async (req: Request, res: Response) => {
 
     if (account) {
       if (transaction.category === "Despesa") {
-        account.ammount = account.ammount + transaction.ammount;
+        account.amount = account.amount + transaction.amount;
       } else if (transaction.category === "Recebimento") {
-        account.ammount = account.ammount - transaction.ammount;
+        account.amount = account.amount - transaction.amount;
       }
 
       await prisma.account.update({
@@ -191,7 +191,7 @@ export const deleteTransaction = async (req: Request, res: Response) => {
           userId,
         },
         data: {
-          ammount: account.ammount,
+          amount: account.amount,
         },
       });
     }

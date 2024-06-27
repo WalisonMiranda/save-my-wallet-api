@@ -10,7 +10,7 @@ PRAGMA defer_foreign_keys=ON;
 PRAGMA foreign_keys=OFF;
 CREATE TABLE "new_Transaction" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "ammount" INTEGER NOT NULL,
+    "amount" INTEGER NOT NULL,
     "Despesa, Recebimento" TEXT NOT NULL,
     "description" TEXT,
     "date" DATETIME NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE "new_Transaction" (
     "userId" TEXT NOT NULL,
     CONSTRAINT "Transaction_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
-INSERT INTO "new_Transaction" ("ammount", "createdAt", "date", "description", "id", "userId") SELECT "ammount", "createdAt", "date", "description", "id", "userId" FROM "Transaction";
+INSERT INTO "new_Transaction" ("amount", "createdAt", "date", "description", "id", "userId") SELECT "amount", "createdAt", "date", "description", "id", "userId" FROM "Transaction";
 DROP TABLE "Transaction";
 ALTER TABLE "new_Transaction" RENAME TO "Transaction";
 PRAGMA foreign_keys=ON;

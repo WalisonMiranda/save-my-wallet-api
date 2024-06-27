@@ -9,7 +9,7 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Transaction" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "ammount" INTEGER NOT NULL,
+    "amount" INTEGER NOT NULL,
     "Despesa, Lazer" TEXT NOT NULL,
     "description" TEXT,
     "date" DATETIME NOT NULL,

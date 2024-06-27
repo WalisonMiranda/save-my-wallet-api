@@ -21,7 +21,7 @@ model User {
 
 model Transaction {
   id          String   @id @default(uuid())
-  ammount     Int
+  amount      Int
   category    String   @map("Despesa, Recebimento")
   description String?
   date        String
@@ -31,9 +31,9 @@ model Transaction {
 }
 
 model Account {
-  id      String @id @default(uuid())
-  ammount Int
-  userId  String @unique
+  id     String @id @default(uuid())
+  amount Int
+  userId String @unique
 
   user User @relation(fields: [userId], references: [id])
 }
