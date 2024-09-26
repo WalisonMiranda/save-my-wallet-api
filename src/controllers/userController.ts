@@ -21,7 +21,7 @@ export const login = async (req: Request, res: Response) => {
 
     res.status(200).json({ token, user: user.name });
   } catch (error) {
-    res.status(401).json({ message: "Authentication failed", error });
+    res.status(401).json({ message: error });
   }
 };
 
